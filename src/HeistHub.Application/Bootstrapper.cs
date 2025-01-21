@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using FluentValidation;
 using HeistHub.Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,8 @@ public static class Bootstrapper
             configuration.AddOpenBehavior(typeof(ValidationPipelineBehaviour<,>));
         });
 
+        services.AddValidatorsFromAssembly(assembly);
+        
         return services;
     }
 }

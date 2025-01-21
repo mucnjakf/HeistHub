@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using HeistHub.Api.Handlers;
 using HeistHub.Application;
 using HeistHub.Database;
 
@@ -12,10 +13,12 @@ public static class Bootstrapper
 
         services.AddOpenApi();
 
+        services.AddHttpExceptionHandler();
+        
         services
             .AddApplication()
             .AddDatabase(configuration);
-        
+
         return services;
     }
 
@@ -27,8 +30,18 @@ public static class Bootstrapper
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "HeistHub API"));
         }
 
+        app.UseExceptionHandler();
+
         app.UseHttpsRedirection();
 
         return app;
+    }
+
+    private static IServiceCollection AddHttpExceptionHandler(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<HttpExceptionHandler>();
+        services.AddProblemDetails();
+
+        return services;
     }
 }
