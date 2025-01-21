@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using HeistHub.Application;
+using HeistHub.Database;
 
 namespace HeistHub.Api;
 
@@ -10,6 +12,10 @@ public static class Bootstrapper
 
         services.AddOpenApi();
 
+        services
+            .AddApplication()
+            .AddDatabase(configuration);
+        
         return services;
     }
 
