@@ -15,8 +15,6 @@ public static class Bootstrapper
 
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
         return services;
     }
 }

@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HeistHub.Application\HeistHub.Application.csproj" />
       <ProjectReference Include="..\HeistHub.Core\HeistHub.Core.csproj" />
     </ItemGroup>
 

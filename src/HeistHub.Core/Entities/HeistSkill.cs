@@ -3,7 +3,7 @@ namespace HeistHub.Core.Entities;
 public sealed class HeistSkill : Skill
 {
     public int MembersRequired { get; private set; }
-
+    
     private HeistSkill(Guid id, string name, string level, int membersRequired) : base(id, name, level)
     {
         MembersRequired = membersRequired;

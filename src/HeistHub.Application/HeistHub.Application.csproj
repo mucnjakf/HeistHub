@@ -11,8 +11,4 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\HeistHub.Database\HeistHub.Database.csproj" />
-    </ItemGroup>
-
 </Project>

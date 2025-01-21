@@ -2,19 +2,25 @@ using HeistHub.Core.Enums;
 
 namespace HeistHub.Core.Entities;
 
-public sealed class Member : Entity
+public sealed class Member
 {
-    public string Name { get; private set; }
+    public Guid Id { get; private set; }
+
+    public string Name { get; private set; } = null!;
 
     public Gender Gender { get; private set; }
 
-    public string Email { get; private set; } // TODO : unique
+    public string Email { get; private set; } = null!; // TODO : unique
 
-    public MemberStatus Status { get; set; }
+    public MemberStatus Status { get; private set; }
 
-    public IEnumerable<MemberSkill> Skills { get; private set; }
+    public IEnumerable<MemberSkill> Skills { get; private set; } = null!;
 
     public IEnumerable<Heist>? Heists { get; private set; }
+
+    private Member()
+    {
+    }
 
     private Member(
         Guid id,
@@ -22,8 +28,9 @@ public sealed class Member : Entity
         Gender gender,
         string email,
         MemberStatus status,
-        IEnumerable<MemberSkill> skills) : base(id)
+        IEnumerable<MemberSkill> skills)
     {
+        Id = id;
         Name = name;
         Gender = gender;
         Email = email;
