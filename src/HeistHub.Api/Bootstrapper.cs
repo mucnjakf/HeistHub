@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using HeistHub.Api.Endpoints;
 using HeistHub.Api.Handlers;
 using HeistHub.Application;
 using HeistHub.Database;
@@ -14,7 +15,7 @@ public static class Bootstrapper
         services.AddOpenApi();
 
         services.AddHttpExceptionHandler();
-        
+
         services
             .AddApplication()
             .AddDatabase(configuration);
@@ -24,6 +25,8 @@ public static class Bootstrapper
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        app.MapEndpoints();
+
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -43,5 +46,13 @@ public static class Bootstrapper
         services.AddProblemDetails();
 
         return services;
+    }
+
+    private static WebApplication MapEndpoints(this WebApplication app)
+    {
+        RouteGroupBuilder group = app.MapGroup("api");
+        group.MapTestEndpoints();
+
+        return app;
     }
 }
