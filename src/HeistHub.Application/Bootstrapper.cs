@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using HeistHub.Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HeistHub.Application;
@@ -9,7 +10,11 @@ public static class Bootstrapper
     {
         Assembly assembly = typeof(Bootstrapper).Assembly;
 
-        services.AddMediatR(configuration => { configuration.RegisterServicesFromAssembly(assembly); });
+        services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssembly(assembly);
+            configuration.AddOpenBehavior(typeof(ValidationPipelineBehaviour<,>));
+        });
 
         return services;
     }
