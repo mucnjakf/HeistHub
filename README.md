@@ -33,8 +33,7 @@ Heist Management Web Application - 2025.
 ### **🥷 GitFlow**
 
 - **Issues**
-    - `user story` - frontend and backend aspects of implementing a feature, detailing the comprehensive requirements and functionalities to be
-      developed (should contain tasks)
+    - `user story` - aspects of implementing a feature, detailing the comprehensive requirements and functionalities to be developed
 
 - **Branches**
     - `main` - stable foundation for an application that is deployed, housing the production-ready codebase with all tested and approved features and
