@@ -4,6 +4,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DC8F5A61-C6A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeistHub.Api", "src\HeistHub.Api\HeistHub.Api.csproj", "{DC390EBB-0A4C-4058-B6B9-F42D3334E1B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeistHub.Core", "src\HeistHub.Core\HeistHub.Core.csproj", "{01DA82D7-EB22-41C9-8607-32E7ADA22D38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,8 +16,13 @@ Global
 		{DC390EBB-0A4C-4058-B6B9-F42D3334E1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC390EBB-0A4C-4058-B6B9-F42D3334E1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC390EBB-0A4C-4058-B6B9-F42D3334E1B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01DA82D7-EB22-41C9-8607-32E7ADA22D38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01DA82D7-EB22-41C9-8607-32E7ADA22D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01DA82D7-EB22-41C9-8607-32E7ADA22D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01DA82D7-EB22-41C9-8607-32E7ADA22D38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC390EBB-0A4C-4058-B6B9-F42D3334E1B1} = {DC8F5A61-C6AE-4310-A8C0-7BBD7882ACE7}
+		{01DA82D7-EB22-41C9-8607-32E7ADA22D38} = {DC8F5A61-C6AE-4310-A8C0-7BBD7882ACE7}
 	EndGlobalSection
 EndGlobal
