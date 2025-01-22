@@ -10,6 +10,8 @@ public sealed class MemberSkillEntityTypeConfiguration : IEntityTypeConfiguratio
     {
         builder.ToTable("MemberSkills");
 
+        builder.HasKey(x => new { x.MemberId, x.SkillId });
+
         builder.Property(x => x.IsMain).IsRequired();
     }
 }

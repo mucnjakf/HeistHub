@@ -17,8 +17,8 @@ public sealed class Heist
     public HeistStatus Status { get; private set; }
 
     public bool IsSuccess { get; private set; }
-
-    public IEnumerable<HeistSkill> RequiredSkills { get; private set; } = null!;
+    
+    public IEnumerable<HeistTactic>? HeistTactics { get; private set; }
 
     public IEnumerable<Member>? Members { get; private set; }
 
@@ -31,15 +31,13 @@ public sealed class Heist
         string name,
         string location,
         DateTimeOffset start,
-        DateTimeOffset end,
-        IEnumerable<HeistSkill> requiredSkills)
+        DateTimeOffset end)
     {
         Id = id;
         Name = name;
         Location = location;
         Start = start;
         End = end;
-        RequiredSkills = requiredSkills;
         Status = HeistStatus.Planning;
     }
 
@@ -47,11 +45,10 @@ public sealed class Heist
         string name,
         string location,
         DateTimeOffset start,
-        DateTimeOffset end,
-        IEnumerable<HeistSkill> requiredSkills)
+        DateTimeOffset end)
     {
         Guid id = Guid.NewGuid();
 
-        return new Heist(id, name, location, start, end, requiredSkills);
+        return new Heist(id, name, location, start, end);
     }
 }

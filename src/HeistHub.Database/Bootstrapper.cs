@@ -1,4 +1,6 @@
-﻿using HeistHub.Database.Context;
+﻿using HeistHub.Application.Repositories;
+using HeistHub.Database.Context;
+using HeistHub.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,9 @@ public static class Bootstrapper
         string connectionString = configuration.GetConnectionString("Default")!;
 
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+        services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<ISkillRepository, SkillRepository>();
 
         return services;
     }

@@ -25,7 +25,7 @@ public sealed class HeistEntityTypeConfiguration : IEntityTypeConfiguration<Heis
 
         builder.Property(x => x.IsSuccess).IsRequired();
 
-        builder.HasMany(x => x.RequiredSkills).WithMany();
+        builder.HasMany(x => x.HeistTactics).WithOne(x => x.Heist).HasForeignKey(x => x.HeistId);
 
         builder.HasMany(x => x.Members).WithMany(x => x.Heists);
     }

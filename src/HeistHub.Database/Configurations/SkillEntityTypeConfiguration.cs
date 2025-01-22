@@ -8,11 +8,13 @@ public sealed class SkillEntityTypeConfiguration : IEntityTypeConfiguration<Skil
 {
     public void Configure(EntityTypeBuilder<Skill> builder)
     {
-        builder.UseTpcMappingStrategy();
+        builder.ToTable("Skills");
 
         builder.HasIndex(x => x.Name).IsUnique();
         builder.Property(x => x.Name).IsRequired();
-
+        
         builder.Property(x => x.Level).IsRequired().HasMaxLength(10);
+
+        builder.HasMany(x => x.MemberSkills).WithOne(x => x.Skill).HasForeignKey(x => x.SkillId);
     }
 }
