@@ -1,10 +1,30 @@
-namespace HeistHub.Core.Entities;
+﻿namespace HeistHub.Core.Entities;
 
-public abstract class Skill(Guid id, string name, string level = "*")
+public sealed class Skill
 {
-    public Guid Id { get; private set; } = id;
+    public Guid Id { get; private set; }
 
-    public string Name { get; private set; } = name; // TODO: unique
+    public string Name { get; private set; } = null!;
 
-    public string Level { get; private set; } = level; // TODO: default "*" max 10
+    public string Level { get; private set; } = null!;
+
+    public IEnumerable<MemberSkill>? MemberSkills { get; private set; }
+
+    private Skill()
+    {
+    }
+
+    private Skill(Guid id, string name, string level)
+    {
+        Id = id;
+        Name = name;
+        Level = level;
+    }
+
+    public static Skill Create(string name, string level)
+    {
+        Guid id = Guid.NewGuid();
+
+        return new Skill(id, name, level);
+    }
 }

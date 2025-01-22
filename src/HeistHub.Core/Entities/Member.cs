@@ -10,12 +10,12 @@ public sealed class Member
 
     public Gender Gender { get; private set; }
 
-    public string Email { get; private set; } = null!; // TODO : unique
+    public string Email { get; private set; } = null!;
 
     public MemberStatus Status { get; private set; }
 
-    public IEnumerable<MemberSkill> Skills { get; private set; } = null!;
-
+    public IEnumerable<MemberSkill>? MemberSkills { get; private set; }
+    
     public IEnumerable<Heist>? Heists { get; private set; }
 
     private Member()
@@ -27,26 +27,23 @@ public sealed class Member
         string name,
         Gender gender,
         string email,
-        MemberStatus status,
-        IEnumerable<MemberSkill> skills)
+        MemberStatus status)
     {
         Id = id;
         Name = name;
         Gender = gender;
         Email = email;
         Status = status;
-        Skills = skills;
     }
 
     public static Member Create(
         string name,
         Gender gender,
         string email,
-        MemberStatus status,
-        IEnumerable<MemberSkill> skills)
+        MemberStatus status)
     {
         Guid id = Guid.NewGuid();
 
-        return new Member(id, name, gender, email, status, skills);
+        return new Member(id, name, gender, email, status);
     }
 }

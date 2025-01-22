@@ -21,6 +21,6 @@ public sealed class MemberEntityTypeConfiguration : IEntityTypeConfiguration<Mem
         
         builder.Property(x => x.Status).IsRequired();
 
-        builder.HasMany(x => x.Skills).WithMany();
+        builder.HasMany(x => x.MemberSkills).WithOne(x => x.Member).HasForeignKey(x => x.MemberId);
     }
 }

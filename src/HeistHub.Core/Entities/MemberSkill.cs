@@ -1,18 +1,14 @@
 namespace HeistHub.Core.Entities;
 
-public sealed class MemberSkill : Skill
+public sealed class MemberSkill
 {
-    public bool IsMain { get; private set; }
+    public Guid MemberId { get; init; }
+    
+    public Member Member { get; private set; } = null!;
 
-    private MemberSkill(Guid id, string name, string level, bool isMain) : base(id, name, level)
-    {
-        IsMain = isMain;
-    }
+    public Guid SkillId { get; init; }
+    
+    public Skill Skill { get; private set; } = null!;
 
-    public static MemberSkill Create(string name, string level, bool isMain)
-    {
-        Guid id = Guid.NewGuid();
-
-        return new MemberSkill(id, name, level, isMain);
-    }
+    public bool IsMain { get; init; }
 }

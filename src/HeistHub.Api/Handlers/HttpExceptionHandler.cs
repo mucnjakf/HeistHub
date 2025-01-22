@@ -12,7 +12,7 @@ public sealed class HttpExceptionHandler(ILogger<HttpExceptionHandler> logger) :
     {
         ErrorResponseDto errorResponse = GetErrorResponse(exception);
 
-        logger.LogError("Http Status Code {httpStatusCode} - Error message: {Message}",
+        logger.LogError("Http status code: {httpStatusCode} - Error message: {Message}",
             errorResponse.HttpStatusCode, errorResponse.Message);
 
         httpContext.Response.ContentType = MediaTypeNames.Application.Json;
@@ -25,8 +25,8 @@ public sealed class HttpExceptionHandler(ILogger<HttpExceptionHandler> logger) :
 
     private static ErrorResponseDto GetErrorResponse(Exception exception) => exception switch
     {
-        ValidationException vex => new ErrorResponseDto(HttpStatusCode.BadRequest, vex.Message, vex.Errors),
-        
+        ValidationException ve => new ErrorResponseDto(HttpStatusCode.BadRequest, ve.Message, ve.Errors),
+
         _ => new ErrorResponseDto(HttpStatusCode.InternalServerError, "Unhandled exception occured.")
     };
 

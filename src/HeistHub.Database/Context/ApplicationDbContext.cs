@@ -7,12 +7,16 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 {
     public DbSet<Heist> Heists { get; set; }
 
-    public DbSet<HeistSkill> HeistSkills { get; set; }
+    public DbSet<Tactic> Tactics { get; set; }
+
+    public DbSet<HeistTactic> HeistTactics { get; set; }
 
     public DbSet<Member> Members { get; set; }
 
+    public DbSet<Skill> Skills { get; set; }
+
     public DbSet<MemberSkill> MemberSkills { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
