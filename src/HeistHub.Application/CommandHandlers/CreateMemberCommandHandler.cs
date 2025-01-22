@@ -22,12 +22,12 @@ public sealed class CreateMemberCommandHandler(IMemberRepository memberRepositor
         return memberId;
     }
 
-    private async Task<List<SkillDto>> CreateSkillsAsync(List<CreateMemberSkillCommand> skills)
+    private async Task<List<SkillDto>> CreateSkillsAsync(List<MemberSkillDto> skills)
     {
         IEnumerable<string> skillNames = skills.Select(x => x.Name);
         IEnumerable<SkillDto> existingSkills = await skillRepository.GetAllByNameAsync(skillNames);
 
-        IEnumerable<CreateMemberSkillCommand> nonExistingSkills = skills
+        IEnumerable<MemberSkillDto> nonExistingSkills = skills
             .Where(x => !existingSkills
                 .Select(y => y.Name)
                 .Contains(x.Name));

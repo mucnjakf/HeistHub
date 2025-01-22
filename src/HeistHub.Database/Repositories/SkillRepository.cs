@@ -18,7 +18,7 @@ public sealed class SkillRepository(ApplicationDbContext applicationDbContext) :
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<SkillDto>> CreateAsync(IEnumerable<CreateMemberSkillCommand> skills)
+    public async Task<IEnumerable<SkillDto>> CreateAsync(IEnumerable<MemberSkillDto> skills)
     {
         List<Skill> newSkills = [];
 
