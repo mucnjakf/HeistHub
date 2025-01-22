@@ -21,10 +21,6 @@ public sealed class Skill
         Level = level;
     }
 
-    public static Skill Create(string name, string level)
-    {
-        Guid id = Guid.NewGuid();
-
-        return new Skill(id, name, level);
-    }
+    public static Skill Create(string name, string level) 
+        => new(Guid.NewGuid(), name, level);
 }

@@ -36,14 +36,6 @@ public sealed class Member
         Status = status;
     }
 
-    public static Member Create(
-        string name,
-        Gender gender,
-        string email,
-        MemberStatus status)
-    {
-        Guid id = Guid.NewGuid();
-
-        return new Member(id, name, gender, email, status);
-    }
+    public static Member Create(string name, Gender gender, string email, MemberStatus status) 
+        => new(Guid.NewGuid(), name, gender, email, status);
 }

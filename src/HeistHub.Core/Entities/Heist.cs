@@ -41,14 +41,6 @@ public sealed class Heist
         Status = HeistStatus.Planning;
     }
 
-    public static Heist Create(
-        string name,
-        string location,
-        DateTimeOffset start,
-        DateTimeOffset end)
-    {
-        Guid id = Guid.NewGuid();
-
-        return new Heist(id, name, location, start, end);
-    }
+    public static Heist Create(string name, string location, DateTimeOffset start, DateTimeOffset end) =>
+        new(Guid.NewGuid(), name, location, start, end);
 }
