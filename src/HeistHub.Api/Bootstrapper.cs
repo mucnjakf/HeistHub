@@ -50,8 +50,7 @@ public static class Bootstrapper
 
     private static WebApplication MapEndpoints(this WebApplication app)
     {
-        RouteGroupBuilder group = app.MapGroup("api");
-        group.MapTestEndpoints();
+        app.MapMemberEndpoints();
 
         return app;
     }

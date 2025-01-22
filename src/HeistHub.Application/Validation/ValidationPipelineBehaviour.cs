@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using ValidationException = HeistHub.Core.Exceptions.ValidationException;
 
@@ -14,9 +15,13 @@ public sealed class ValidationPipelineBehaviour<TRequest, TResponse>(IEnumerable
             return await next();
         }
 
-        List<string> errors = validators.Select(x => x.Validate(request))
-            .SelectMany(x => x.Errors)
-            .Select(x => x.ErrorMessage)
+        IEnumerable<Task<ValidationResult>> validationTasks = validators.Select(validator => validator.ValidateAsync(request, cancellationToken));
+        ValidationResult[] validationResults = await Task.WhenAll(validationTasks);
+
+        List<string> errors = validationResults
+            .SelectMany(result => result.Errors)
+            .Where(error => error != null)
+            .Select(error => error.ErrorMessage)
             .ToList();
 
         if (errors.Count != 0)
