@@ -24,10 +24,6 @@ public sealed class Tactic
         MembersRequired = membersRequired;
     }
 
-    public static Tactic Create(string name, int membersRequired, string level)
-    {
-        Guid id = Guid.NewGuid();
-
-        return new Tactic(id, name, level, membersRequired);
-    }
+    public static Tactic Create(string name, int membersRequired, string level) 
+        => new(Guid.NewGuid(), name, level, membersRequired);
 }
