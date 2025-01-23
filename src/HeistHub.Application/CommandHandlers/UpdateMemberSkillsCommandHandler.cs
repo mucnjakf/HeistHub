@@ -15,13 +15,6 @@ public sealed class UpdateMemberSkillsCommandHandler(
 {
     public async Task Handle(UpdateMemberSkillsCommand command, CancellationToken cancellationToken)
     {
-        bool memberExists = await memberRepository.ExistsAsync(command.MemberId);
-
-        if (!memberExists)
-        {
-            throw new MemberNotFoundException($"Member with ID {command.MemberId} not found.");
-        }
-
         if (command.Skills is null)
         {
             Guid skillId = await skillRepository.GetIdByNameAsync(command.MainSkill!);
