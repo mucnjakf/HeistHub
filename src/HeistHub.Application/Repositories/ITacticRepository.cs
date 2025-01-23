@@ -9,4 +9,6 @@ public interface ITacticRepository
     Task<IEnumerable<TacticDto>> CreateAsync(IEnumerable<HeistTacticDto> tactics);
 
     Task CreateHeistTacticsAsync(Guid heistId, IEnumerable<Guid> tacticIds);
+
+    Task RemoveHeistTacticsAsync(Guid heistId);
 }

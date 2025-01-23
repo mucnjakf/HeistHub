@@ -31,7 +31,7 @@ public static class MemberEndpoints
     {
         await sender.Send(new UpdateMemberSkillsCommand(memberId, request.Skills, request.MainSkill));
 
-        httpContext.Response.Headers.Location = $"members/{memberId}";
+        httpContext.Response.Headers.Location = $"members/{memberId}/skills";
 
         return Results.NoContent();
     }
