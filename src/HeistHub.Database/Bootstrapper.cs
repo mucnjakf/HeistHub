@@ -19,6 +19,8 @@ public static class Bootstrapper
 
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<ISkillRepository, SkillRepository>();
+        services.AddScoped<IHeistRepository, HeistRepository>();
+        services.AddScoped<ITacticRepository, TacticRepository>();
 
         return services;
     }
