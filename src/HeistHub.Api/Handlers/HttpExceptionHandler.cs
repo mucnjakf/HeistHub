@@ -27,7 +27,7 @@ public sealed class HttpExceptionHandler(ILogger<HttpExceptionHandler> logger) :
     {
         MemberNotFoundException mnfe => new ErrorResponseDto(HttpStatusCode.NotFound, mnfe.Message),
 
-        MemberSkillNotFoundException snfe => new ErrorResponseDto(HttpStatusCode.BadRequest, snfe.Message),
+        MemberSkillNotFoundException snfe => new ErrorResponseDto(HttpStatusCode.NotFound, snfe.Message),
 
         DuplicateSkillException dse => new ErrorResponseDto(HttpStatusCode.BadRequest, dse.Message),
 

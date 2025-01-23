@@ -5,6 +5,7 @@ namespace HeistHub.Application.Services;
 
 public sealed class SkillService(ISkillRepository skillRepository) : ISkillService
 {
+    // TODO: maybe mobe to repo
     public async Task<List<SkillDto>> CreateSkillsAsync(List<MemberSkillDto> skills)
     {
         List<SkillDto> existingSkills = (await skillRepository.GetAllByNameAndLevelAsync(skills)).ToList();
