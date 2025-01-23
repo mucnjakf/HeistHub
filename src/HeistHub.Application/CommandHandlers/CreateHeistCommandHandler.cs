@@ -7,7 +7,10 @@ using MediatR;
 
 namespace HeistHub.Application.CommandHandlers;
 
-public sealed class CreateHeistCommandHandler(IHeistRepository heistRepository, ITacticRepository tacticRepository, ITacticService tacticService)
+public sealed class CreateHeistCommandHandler(
+    IHeistRepository heistRepository,
+    ITacticRepository tacticRepository,
+    ITacticService tacticService)
     : IRequestHandler<CreateHeistCommand, Guid>
 {
     public async Task<Guid> Handle(CreateHeistCommand command, CancellationToken cancellationToken)

@@ -25,13 +25,15 @@ public sealed class HttpExceptionHandler(ILogger<HttpExceptionHandler> logger) :
 
     private static ErrorResponseDto GetErrorResponse(Exception exception) => exception switch
     {
-        MemberNotFoundException mnfe => new ErrorResponseDto(HttpStatusCode.NotFound, mnfe.Message),
-
-        MemberSkillNotFoundException snfe => new ErrorResponseDto(HttpStatusCode.NotFound, snfe.Message),
-
         DuplicateSkillException dse => new ErrorResponseDto(HttpStatusCode.BadRequest, dse.Message),
-
+        DuplicateTacticException dte => new ErrorResponseDto(HttpStatusCode.BadRequest, dte.Message),
         ValidationException ve => new ErrorResponseDto(HttpStatusCode.BadRequest, ve.Message, ve.Errors),
+
+        MemberNotFoundException mnfe => new ErrorResponseDto(HttpStatusCode.NotFound, mnfe.Message),
+        MemberSkillNotFoundException snfe => new ErrorResponseDto(HttpStatusCode.NotFound, snfe.Message),
+        HeistNotFoundException hnfe => new ErrorResponseDto(HttpStatusCode.NotFound, hnfe.Message),
+
+        HeistStartedException hse => new ErrorResponseDto(HttpStatusCode.MethodNotAllowed, hse.Message),
 
         _ => new ErrorResponseDto(HttpStatusCode.InternalServerError, "Unhandled exception occured.")
     };

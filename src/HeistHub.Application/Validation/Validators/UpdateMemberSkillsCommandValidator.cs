@@ -10,7 +10,7 @@ public sealed class UpdateMemberSkillsCommandValidator : AbstractValidator<Updat
     {
         RuleFor(x => x.MemberId)
             .NotEmpty().WithMessage("MemberId is required.")
-            .MustAsync(async (memberId, _) => await memberRepository.ExistsAsync(memberId))
-            .WithMessage($"Member with this ID not found.");
+            .MustAsync(async (x, _) => await memberRepository.ExistsAsync(x))
+            .WithMessage("Member with this ID not found.");
     }
 }

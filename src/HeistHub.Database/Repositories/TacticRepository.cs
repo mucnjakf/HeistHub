@@ -40,4 +40,14 @@ public class TacticRepository(ApplicationDbContext applicationDbContext) : ITact
 
         await applicationDbContext.SaveChangesAsync();
     }
+
+    public async Task RemoveHeistTacticsAsync(Guid heistId)
+    {
+        List<HeistTactic> heistTactics = await applicationDbContext.HeistTactics
+            .Where(x => x.HeistId == heistId)
+            .ToListAsync();
+
+        applicationDbContext.HeistTactics.RemoveRange(heistTactics);
+        await applicationDbContext.SaveChangesAsync();
+    }
 }
