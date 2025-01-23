@@ -50,9 +50,6 @@ namespace HeistHub.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Heists", (string)null);
                 });
 
@@ -93,9 +90,6 @@ namespace HeistHub.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.ToTable("Members", (string)null);
                 });
 
@@ -133,9 +127,6 @@ namespace HeistHub.Database.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Skills", (string)null);
                 });

@@ -4,4 +4,4 @@ using MediatR;
 namespace HeistHub.Application.Commands;
 
 // TODO: validation
-public record UpdateMemberSkillsCommand(Guid MemberId, IEnumerable<MemberSkillDto> Skills, string MainSkill) : IRequest<Guid>;
+public record UpdateMemberSkillsCommand(Guid MemberId, IEnumerable<MemberSkillDto>? Skills, string? MainSkill) : IRequest;

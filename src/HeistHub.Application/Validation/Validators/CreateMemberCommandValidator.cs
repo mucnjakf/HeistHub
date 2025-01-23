@@ -43,3 +43,5 @@ public sealed class CreateMemberCommandValidator : AbstractValidator<CreateMembe
             .WithMessage("Duplicate skill name are not allowed.");
     }
 }
+
+// TODO: refactore 
