@@ -51,6 +51,7 @@ public static class Bootstrapper
     private static WebApplication MapEndpoints(this WebApplication app)
     {
         app.MapMemberEndpoints();
+        app.MapHeistEndpoints();
 
         return app;
     }

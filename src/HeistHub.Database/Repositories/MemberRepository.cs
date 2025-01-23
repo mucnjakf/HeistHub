@@ -17,7 +17,7 @@ public sealed class MemberRepository(ApplicationDbContext applicationDbContext) 
 
     public async Task<bool> ExistsAsync(Guid memberId)
     {
-        return await applicationDbContext.Members.AnyAsync(member => member.Id == memberId);
+        return await applicationDbContext.Members.AnyAsync(x => x.Id == memberId);
     }
 
     public async Task<bool> EmailExistsAsync(string email)
