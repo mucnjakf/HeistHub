@@ -10,7 +10,6 @@ public sealed class SkillEntityTypeConfiguration : IEntityTypeConfiguration<Skil
     {
         builder.ToTable("Skills");
 
-        builder.HasIndex(x => x.Name).IsUnique();
         builder.Property(x => x.Name).IsRequired();
         
         builder.Property(x => x.Level).IsRequired().HasMaxLength(10);

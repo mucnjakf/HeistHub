@@ -10,5 +10,5 @@ public sealed class MemberSkill
     
     public Skill Skill { get; private set; } = null!;
 
-    public bool IsMain { get; init; }
+    public bool IsMain { get; set; }
 }

@@ -1,8 +1,8 @@
-﻿using HeistHub.Application.Commands;
-using HeistHub.Application.Dtos;
+﻿using HeistHub.Application.Dtos;
 using HeistHub.Application.Mappers;
 using HeistHub.Application.Repositories;
 using HeistHub.Core.Entities;
+using HeistHub.Core.Exceptions;
 using HeistHub.Database.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,15 +10,20 @@ namespace HeistHub.Database.Repositories;
 
 public sealed class SkillRepository(ApplicationDbContext applicationDbContext) : ISkillRepository
 {
-    public async Task<IEnumerable<SkillDto>> GetAllByNameAsync(IEnumerable<string> names)
+    public async Task<IEnumerable<SkillDto>> GetAllByNameAndLevelAsync(List<MemberSkillDto> skills)
     {
-        return await applicationDbContext.Skills
-            .Where(x => names.Contains(x.Name))
-            .Select(x => x.ToSkillDto())
+        List<Skill> dbSkills = await applicationDbContext.Skills
+            .Where(x => skills
+                .Select(y => y.Name)
+                .Contains(x.Name))
             .ToListAsync();
+
+        return dbSkills
+            .Where(x => skills.Any(y => y.Level == x.Level))
+            .Select(x => x.ToSkillDto());
     }
 
-    public async Task<IEnumerable<SkillDto>> CreateAsync(IEnumerable<CreateMemberSkillCommand> skills)
+    public async Task<IEnumerable<SkillDto>> CreateAsync(IEnumerable<MemberSkillDto> skills)
     {
         List<Skill> newSkills = [];
 
@@ -37,6 +42,42 @@ public sealed class SkillRepository(ApplicationDbContext applicationDbContext) :
 
         await applicationDbContext.MemberSkills
             .AddRangeAsync(memberSkills);
+
+        await applicationDbContext.SaveChangesAsync();
+    }
+
+    public async Task RemoveMemberSkillsAsync(Guid memberId)
+    {
+        List<MemberSkill> memberSkills = await applicationDbContext.MemberSkills
+            .Where(x => x.MemberId == memberId)
+            .ToListAsync();
+
+        applicationDbContext.MemberSkills.RemoveRange(memberSkills);
+        await applicationDbContext.SaveChangesAsync();
+    }
+
+    public async Task<Guid> GetIdByNameAsync(string skillName)
+    {
+        MemberSkill? memberSkill = await applicationDbContext.MemberSkills
+            .Include(x => x.Skill)
+            .FirstOrDefaultAsync(x => x.Skill.Name == skillName);
+
+        if (memberSkill is null)
+        {
+            throw new MemberSkillNotFoundException($"Member does not have a skill with name {skillName}.");
+        }
+
+        return memberSkill.SkillId;
+    }
+
+    public async Task UpdateMemberMainSkillAsync(Guid memberId, Guid mainSkillId)
+    {
+        List<MemberSkill> memberSkills = await applicationDbContext.MemberSkills
+            .Where(x => x.MemberId == memberId)
+            .ToListAsync();
+
+        memberSkills.First(x => x.IsMain).IsMain = false;
+        memberSkills.First(x => x.SkillId == mainSkillId).IsMain = true;
 
         await applicationDbContext.SaveChangesAsync();
     }

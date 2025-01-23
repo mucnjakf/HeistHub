@@ -1,12 +1,17 @@
 ﻿using HeistHub.Application.Commands;
 using HeistHub.Application.Dtos;
 using HeistHub.Application.Repositories;
+using HeistHub.Application.Services;
 using HeistHub.Core.Entities;
+using HeistHub.Core.Exceptions;
 using MediatR;
 
 namespace HeistHub.Application.CommandHandlers;
 
-public sealed class CreateMemberCommandHandler(IMemberRepository memberRepository, ISkillRepository skillRepository)
+public sealed class CreateMemberCommandHandler(
+    IMemberRepository memberRepository,
+    ISkillRepository skillRepository,
+    ISkillService skillService)
     : IRequestHandler<CreateMemberCommand, Guid>
 {
     public async Task<Guid> Handle(CreateMemberCommand command, CancellationToken cancellationToken)
@@ -14,26 +19,17 @@ public sealed class CreateMemberCommandHandler(IMemberRepository memberRepositor
         Member member = Member.Create(command.Name, command.Gender, command.Email, command.Status);
         Guid memberId = await memberRepository.CreateAsync(member);
 
-        List<SkillDto> newSkills = await CreateSkillsAsync(command.Skills.ToList());
-        Guid mainSkillId = newSkills.FirstOrDefault(x => x.Name == command.MainSkill)!.Id;
+        List<SkillDto> newSkills = await skillService.CreateSkillsAsync(command.Skills.ToList());
 
-        await skillRepository.CreateMemberSkillsAsync(memberId, newSkills.Select(x => x.Id), mainSkillId);
+        SkillDto? mainSkill = newSkills.FirstOrDefault(x => x.Name == command.MainSkill);
+
+        if (mainSkill is null)
+        {
+            throw new MemberSkillNotFoundException("Main skill not found.");
+        }
+
+        await skillRepository.CreateMemberSkillsAsync(memberId, newSkills.Select(x => x.Id), mainSkill.Id);
 
         return memberId;
-    }
-
-    private async Task<List<SkillDto>> CreateSkillsAsync(List<CreateMemberSkillCommand> skills)
-    {
-        IEnumerable<string> skillNames = skills.Select(x => x.Name);
-        IEnumerable<SkillDto> existingSkills = await skillRepository.GetAllByNameAsync(skillNames);
-
-        IEnumerable<CreateMemberSkillCommand> nonExistingSkills = skills
-            .Where(x => !existingSkills
-                .Select(y => y.Name)
-                .Contains(x.Name));
-
-        IEnumerable<SkillDto> newSkills = await skillRepository.CreateAsync(nonExistingSkills);
-
-        return newSkills.Concat(existingSkills).ToList();
     }
 }

@@ -16,7 +16,6 @@ public sealed class MemberEntityTypeConfiguration : IEntityTypeConfiguration<Mem
         
         builder.Property(x => x.Gender).IsRequired();
 
-        builder.HasIndex(x => x.Email).IsUnique();
         builder.Property(x => x.Email).IsRequired();
         
         builder.Property(x => x.Status).IsRequired();
