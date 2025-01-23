@@ -12,14 +12,10 @@ public sealed class SkillRepository(ApplicationDbContext applicationDbContext) :
 {
     public async Task<IEnumerable<SkillDto>> GetAllByNameAndLevelAsync(List<MemberSkillDto> skills)
     {
-        List<Skill> dbSkills = await applicationDbContext.Skills
-            .Where(x => skills
-                .Select(y => y.Name)
-                .Contains(x.Name))
-            .ToListAsync();
+        List<Skill> dbSkills = await applicationDbContext.Skills.ToListAsync();
 
         return dbSkills
-            .Where(x => skills.Any(y => y.Level == x.Level))
+            .Where(x => skills.Any(y => y.Name == x.Name && y.Level == x.Level))
             .Select(x => x.ToSkillDto());
     }
 
@@ -79,6 +75,21 @@ public sealed class SkillRepository(ApplicationDbContext applicationDbContext) :
         memberSkills.First(x => x.IsMain).IsMain = false;
         memberSkills.First(x => x.SkillId == mainSkillId).IsMain = true;
 
+        await applicationDbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteMemberSkillAsync(Guid memberId, string skillName)
+    {
+        MemberSkill? memberSkill = await applicationDbContext.MemberSkills
+            .Include(x => x.Skill)
+            .FirstOrDefaultAsync(x => x.MemberId == memberId && x.Skill.Name == skillName);
+
+        if (memberSkill is null)
+        {
+            throw new MemberSkillNotFoundException($"Member does not have a skill with name {skillName}.");
+        }
+
+        applicationDbContext.MemberSkills.Remove(memberSkill);
         await applicationDbContext.SaveChangesAsync();
     }
 }

@@ -8,7 +8,6 @@ using MediatR;
 namespace HeistHub.Application.CommandHandlers;
 
 public sealed class UpdateMemberSkillsCommandHandler(
-    IMemberRepository memberRepository,
     ISkillRepository skillRepository,
     ISkillService skillService)
     : IRequestHandler<UpdateMemberSkillsCommand>

@@ -15,4 +15,6 @@ public interface ISkillRepository
     Task<Guid> GetIdByNameAsync(string skillName);
 
     Task UpdateMemberMainSkillAsync(Guid memberId, Guid mainSkillId);
+    
+    Task DeleteMemberSkillAsync(Guid memberId, string skillName);
 }

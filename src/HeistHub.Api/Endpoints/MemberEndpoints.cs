@@ -13,6 +13,7 @@ public static class MemberEndpoints
 
         group.MapPost(string.Empty, CreateMemberAsync);
         group.MapPut("{memberId:guid}/skills", UpdateMemberSkillsAsync);
+        group.MapDelete("{memberId:guid}/skills/{skillName}", DeleteMemberSkillAsync);
     }
 
     private static async Task<IResult> CreateMemberAsync(HttpContext httpContext, ISender sender, [FromBody] CreateMemberCommand command)
@@ -31,6 +32,17 @@ public static class MemberEndpoints
         await sender.Send(new UpdateMemberSkillsCommand(memberId, request.Skills, request.MainSkill));
 
         httpContext.Response.Headers.Location = $"members/{memberId}";
+
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> DeleteMemberSkillAsync(
+        HttpContext httpContext,
+        ISender sender,
+        [FromRoute] Guid memberId,
+        [FromRoute] string skillName)
+    {
+        await sender.Send(new DeleteMemberSkillCommand(memberId, skillName));
 
         return Results.NoContent();
     }
