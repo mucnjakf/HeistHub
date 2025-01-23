@@ -1,12 +1,16 @@
 ﻿using HeistHub.Application.Commands;
 using HeistHub.Application.Dtos;
 using HeistHub.Application.Repositories;
+using HeistHub.Application.Services;
 using HeistHub.Core.Exceptions;
 using MediatR;
 
 namespace HeistHub.Application.CommandHandlers;
 
-public sealed class UpdateMemberSkillsCommandHandler(IMemberRepository memberRepository, ISkillRepository skillRepository)
+public sealed class UpdateMemberSkillsCommandHandler(
+    IMemberRepository memberRepository,
+    ISkillRepository skillRepository,
+    ISkillService skillService)
     : IRequestHandler<UpdateMemberSkillsCommand>
 {
     public async Task Handle(UpdateMemberSkillsCommand command, CancellationToken cancellationToken)
@@ -35,7 +39,7 @@ public sealed class UpdateMemberSkillsCommandHandler(IMemberRepository memberRep
         }
 
         await skillRepository.RemoveMemberSkillsAsync(command.MemberId);
-        List<SkillDto> newSkills = await CreateSkillsAsync(command.Skills.ToList());
+        List<SkillDto> newSkills = await skillService.CreateSkillsAsync(command.Skills.ToList());
         Guid mainSkillId = Guid.Empty;
 
         if (command.MainSkill is not null)
@@ -44,18 +48,5 @@ public sealed class UpdateMemberSkillsCommandHandler(IMemberRepository memberRep
         }
 
         await skillRepository.CreateMemberSkillsAsync(command.MemberId, newSkills.Select(x => x.Id), mainSkillId);
-    }
-
-    // TODO: move to service
-    private async Task<List<SkillDto>> CreateSkillsAsync(List<MemberSkillDto> skills)
-    {
-        IEnumerable<SkillDto> existingSkills = await skillRepository.GetAllByNameAndLevelAsync(skills);
-
-        IEnumerable<MemberSkillDto> nonExistingSkills = skills
-            .Where(x => !existingSkills.Any(y => y.Name == x.Name && y.Level == x.Level));
-
-        IEnumerable<SkillDto> newSkills = await skillRepository.CreateAsync(nonExistingSkills);
-
-        return newSkills.Concat(existingSkills).ToList();
     }
 }

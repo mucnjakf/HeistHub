@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using HeistHub.Application.Services;
 using HeistHub.Application.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +19,9 @@ public static class Bootstrapper
         });
 
         services.AddValidatorsFromAssembly(assembly);
-        
+
+        services.AddScoped<ISkillService, SkillService>();
+
         return services;
     }
 }

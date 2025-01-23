@@ -12,10 +12,14 @@ public sealed class SkillRepository(ApplicationDbContext applicationDbContext) :
 {
     public async Task<IEnumerable<SkillDto>> GetAllByNameAndLevelAsync(List<MemberSkillDto> skills)
     {
-        List<Skill> dbSkills = await applicationDbContext.Skills.ToListAsync();
+        List<Skill> dbSkills = await applicationDbContext.Skills
+            .Where(x => skills
+                .Select(y => y.Name)
+                .Contains(x.Name))
+            .ToListAsync();
 
         return dbSkills
-            .Where(x => skills.Any(y => y.Name == x.Name && y.Level == x.Level))
+            .Where(x => skills.Any(y => y.Level == x.Level))
             .Select(x => x.ToSkillDto());
     }
 
