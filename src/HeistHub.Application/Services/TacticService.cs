@@ -5,7 +5,6 @@ namespace HeistHub.Application.Services;
 
 public sealed class TacticService(ITacticRepository tacticRepository) : ITacticService
 {
-    // TODO: move to repo mayvbe
     public async Task<List<TacticDto>> CreateTacticsAsync(List<HeistTacticDto> tactics)
     {
         List<TacticDto> existingTactics = (await tacticRepository.GetAllByNameLevelAndMembersRequiredAsync(tactics)).ToList();

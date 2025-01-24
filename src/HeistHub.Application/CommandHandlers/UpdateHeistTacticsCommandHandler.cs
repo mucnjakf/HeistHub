@@ -13,7 +13,6 @@ public sealed class UpdateHeistTacticsCommandHandler(
     ITacticService tacticService)
     : IRequestHandler<UpdateHeistTacticsCommand>
 {
-    // TODO: validation
     public async Task Handle(UpdateHeistTacticsCommand command, CancellationToken cancellationToken)
     {
         bool heistStarted = await heistRepository.DidHeistStartAsync(command.HeistId);

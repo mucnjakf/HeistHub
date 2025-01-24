@@ -6,7 +6,7 @@ public sealed class Heist
 {
     public Guid Id { get; private set; }
 
-    public string Name { get; private set; } = null!; // TODO unique
+    public string Name { get; private set; } = null!;
 
     public string Location { get; private set; } = null!;
 
