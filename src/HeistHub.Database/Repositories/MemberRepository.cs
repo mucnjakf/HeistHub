@@ -1,5 +1,6 @@
 ﻿using HeistHub.Application.Repositories;
 using HeistHub.Core.Entities;
+using HeistHub.Core.Exceptions;
 using HeistHub.Database.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,5 +24,20 @@ public sealed class MemberRepository(ApplicationDbContext applicationDbContext) 
     public async Task<bool> EmailExistsAsync(string email)
     {
         return await applicationDbContext.Members.AnyAsync(x => x.Email == email);
+    }
+
+    public async Task<Member> GetAsync(Guid memberId)
+    {
+        Member? member = await applicationDbContext.Members
+            .Include(x => x.MemberSkills)!
+            .ThenInclude(x => x.Skill)
+            .FirstOrDefaultAsync(x => x.Id == memberId);
+
+        if (member is null)
+        {
+            throw new MemberNotFoundException($"Member with ID {memberId} not found.");
+        }
+
+        return member;
     }
 }

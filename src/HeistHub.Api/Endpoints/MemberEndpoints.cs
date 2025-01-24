@@ -1,4 +1,6 @@
 ﻿using HeistHub.Application.Commands;
+using HeistHub.Application.Dtos;
+using HeistHub.Application.Queries;
 using HeistHub.Application.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +13,17 @@ public static class MemberEndpoints
     {
         RouteGroupBuilder group = app.MapGroup("api/members");
 
+        group.MapGet("{memberId:guid}", GetMemberAsync);
         group.MapPost(string.Empty, CreateMemberAsync);
         group.MapPut("{memberId:guid}/skills", UpdateMemberSkillsAsync);
         group.MapDelete("{memberId:guid}/skills/{skillName}", DeleteMemberSkillAsync);
+    }
+
+    private static async Task<IResult> GetMemberAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid memberId)
+    {
+        MemberDto member = await sender.Send(new GetMemberQuery(memberId));
+
+        return Results.Ok(member);
     }
 
     private static async Task<IResult> CreateMemberAsync(HttpContext httpContext, ISender sender, [FromBody] CreateMemberCommand command)

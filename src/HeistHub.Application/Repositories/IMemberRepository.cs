@@ -9,4 +9,6 @@ public interface IMemberRepository
     Task<bool> ExistsAsync(Guid memberId);
 
     Task<bool> EmailExistsAsync(string email);
+
+    Task<Member> GetAsync(Guid memberId);
 }
