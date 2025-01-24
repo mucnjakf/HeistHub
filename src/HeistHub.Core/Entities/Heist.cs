@@ -17,7 +17,7 @@ public sealed class Heist
     public HeistStatus Status { get; private set; }
 
     public bool IsSuccess { get; private set; }
-    
+
     public IEnumerable<HeistTactic>? HeistTactics { get; private set; }
 
     public IEnumerable<Member>? Members { get; private set; }
@@ -43,4 +43,9 @@ public sealed class Heist
 
     public static Heist Create(string name, string location, DateTimeOffset start, DateTimeOffset end) =>
         new(Guid.NewGuid(), name, location, start, end);
+
+    public void UpdateStatus(HeistStatus status)
+    {
+        Status = status;
+    }
 }

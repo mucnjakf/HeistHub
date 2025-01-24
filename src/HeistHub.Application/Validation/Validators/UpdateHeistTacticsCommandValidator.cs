@@ -6,13 +6,8 @@ namespace HeistHub.Application.Validation.Validators;
 
 public class UpdateHeistTacticsCommandValidator : AbstractValidator<UpdateHeistTacticsCommand>
 {
-    public UpdateHeistTacticsCommandValidator(IHeistRepository heistRepository)
+    public UpdateHeistTacticsCommandValidator()
     {
-        RuleFor(x => x.HeistId)
-            .NotEmpty().WithMessage("HeistId is required.")
-            .MustAsync(async (x, _) => await heistRepository.ExistsAsync(x))
-            .WithMessage("Heist with this ID not found.");
-
         RuleFor(x => x.Tactics)
             .NotEmpty().WithMessage("At least one tactic is required.")
             .ForEach(x =>
