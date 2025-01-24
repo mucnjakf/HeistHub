@@ -14,4 +14,9 @@ public static class SkillMapper
     {
         return new MemberSkillDto(skill.Name, skill.Level);
     }
+
+    public static MemberSkillDto ToMemberSkillDto(this MemberSkill memberSkill)
+    {
+        return new MemberSkillDto(memberSkill.Skill.Name, memberSkill.Skill.Level);
+    }
 }

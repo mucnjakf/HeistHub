@@ -14,6 +14,7 @@ public static class MemberEndpoints
         RouteGroupBuilder group = app.MapGroup("api/members");
 
         group.MapGet("{memberId:guid}", GetMemberAsync);
+        group.MapGet("{memberId:guid}/skills", GetMemberSkillsAsync);
         group.MapPost(string.Empty, CreateMemberAsync);
         group.MapPut("{memberId:guid}/skills", UpdateMemberSkillsAsync);
         group.MapDelete("{memberId:guid}/skills/{skillName}", DeleteMemberSkillAsync);
@@ -24,6 +25,13 @@ public static class MemberEndpoints
         MemberDto member = await sender.Send(new GetMemberQuery(memberId));
 
         return Results.Ok(member);
+    }
+
+    private static async Task<IResult> GetMemberSkillsAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid memberId)
+    {
+        MainMemberSkillDto mainMemberSkill = await sender.Send(new GetMemberSkillsQuery(memberId));
+
+        return Results.Ok(mainMemberSkill);
     }
 
     private static async Task<IResult> CreateMemberAsync(HttpContext httpContext, ISender sender, [FromBody] CreateMemberCommand command)

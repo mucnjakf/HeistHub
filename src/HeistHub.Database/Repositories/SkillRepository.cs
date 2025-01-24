@@ -92,4 +92,12 @@ public sealed class SkillRepository(ApplicationDbContext applicationDbContext) :
         applicationDbContext.MemberSkills.Remove(memberSkill);
         await applicationDbContext.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<MemberSkill>> GetMemberSkillsAsync(Guid memberId)
+    {
+        return await applicationDbContext.MemberSkills
+            .Include(x => x.Skill)
+            .Where(x => x.MemberId == memberId)
+            .ToListAsync();
+    }
 }
