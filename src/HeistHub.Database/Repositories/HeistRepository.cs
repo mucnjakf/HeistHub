@@ -9,6 +9,18 @@ namespace HeistHub.Database.Repositories;
 
 public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeistRepository
 {
+    public async Task<Heist> GetAsync(Guid heistId)
+    {
+        Heist? heist = await applicationDbContext.Heists.FirstOrDefaultAsync(x => x.Id == heistId);
+
+        if (heist is null)
+        {
+            throw new HeistNotFoundException($"Heist with ID {heistId} not found.");
+        }
+
+        return heist;
+    }
+
     public async Task<Guid> CreateAsync(Heist heist)
     {
         await applicationDbContext.Heists.AddAsync(heist);
@@ -22,11 +34,6 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
         return await applicationDbContext.Heists.AnyAsync(x => x.Name == name);
     }
 
-    public async Task<bool> ExistsAsync(Guid id)
-    {
-        return await applicationDbContext.Heists.AnyAsync(x => x.Id == id);
-    }
-
     public async Task<bool> DidHeistStartAsync(Guid heistId)
     {
         Heist? heist = await applicationDbContext.Heists.FirstOrDefaultAsync(x => x.Id == heistId);
@@ -37,5 +44,11 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
         }
 
         return heist.Status is HeistStatus.InProgress;
+    }
+
+    public async Task UpdateStatusAsync(Heist heist, HeistStatus status)
+    {
+        heist.UpdateStatus(status);
+        await applicationDbContext.SaveChangesAsync();
     }
 }

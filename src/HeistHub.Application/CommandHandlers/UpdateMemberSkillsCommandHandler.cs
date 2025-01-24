@@ -14,6 +14,8 @@ public sealed class UpdateMemberSkillsCommandHandler(
 {
     public async Task Handle(UpdateMemberSkillsCommand command, CancellationToken cancellationToken)
     {
+        // TODO 404 if not found
+        
         if (command.Skills is null)
         {
             Guid skillId = await skillRepository.GetIdByNameAsync(command.MainSkill!);

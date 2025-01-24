@@ -13,6 +13,7 @@ public static class HeistEndpoints
 
         group.MapPost(string.Empty, CreateHeistAsync);
         group.MapPatch("{heistId:guid}/tactics", UpdateHeistTacticsAsync);
+        group.MapPut("{heistId:guid}/start", StartHeistAsync);
     }
 
     private static async Task<IResult> CreateHeistAsync(HttpContext httpContext, ISender sender, [FromBody] CreateHeistCommand command)
@@ -33,5 +34,14 @@ public static class HeistEndpoints
         httpContext.Response.Headers.Location = $"heists/{heistId}/tactics";
 
         return Results.NoContent();
+    }
+
+    private static async Task<IResult> StartHeistAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid heistId)
+    {
+        await sender.Send(new StartHeistCommand(heistId));
+
+        httpContext.Response.Headers.Location = $"heists/{heistId}/status";
+
+        return Results.Ok();
     }
 }
