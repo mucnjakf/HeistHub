@@ -1,4 +1,6 @@
 ﻿using HeistHub.Application.Commands;
+using HeistHub.Application.Dtos;
+using HeistHub.Application.Queries;
 using HeistHub.Application.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +13,17 @@ public static class HeistEndpoints
     {
         RouteGroupBuilder group = app.MapGroup("api/heists");
 
+        group.MapGet("{heistId:guid}", GetHeistAsync);
         group.MapPost(string.Empty, CreateHeistAsync);
         group.MapPatch("{heistId:guid}/tactics", UpdateHeistTacticsAsync);
         group.MapPut("{heistId:guid}/start", StartHeistAsync);
+    }
+
+    private static async Task<IResult> GetHeistAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid heistId)
+    {
+        HeistDto heist = await sender.Send(new GetHeistQuery(heistId));
+
+        return Results.Ok(heist);
     }
 
     private static async Task<IResult> CreateHeistAsync(HttpContext httpContext, ISender sender, [FromBody] CreateHeistCommand command)

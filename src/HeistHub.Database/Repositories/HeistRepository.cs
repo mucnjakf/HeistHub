@@ -11,7 +11,10 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
 {
     public async Task<Heist> GetAsync(Guid heistId)
     {
-        Heist? heist = await applicationDbContext.Heists.FirstOrDefaultAsync(x => x.Id == heistId);
+        Heist? heist = await applicationDbContext.Heists
+            .Include(x => x.HeistTactics)!
+            .ThenInclude(x => x.Tactic)
+            .FirstOrDefaultAsync(x => x.Id == heistId);
 
         if (heist is null)
         {

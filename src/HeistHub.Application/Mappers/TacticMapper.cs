@@ -9,4 +9,9 @@ public static class TacticMapper
     {
         return new TacticDto(tactic.Id, tactic.Name, tactic.Level, tactic.MembersRequired);
     }
+
+    public static HeistTacticDto ToHeistTacticDto(this Tactic tactic)
+    {
+        return new HeistTacticDto(tactic.Name, tactic.Level, tactic.MembersRequired);
+    }
 }
