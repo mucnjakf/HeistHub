@@ -14,4 +14,9 @@ public static class TacticMapper
     {
         return new HeistTacticDto(tactic.Name, tactic.Level, tactic.MembersRequired);
     }
+
+    public static HeistTacticDto ToHeistTacticDto(this HeistTactic heistTactic)
+    {
+        return new HeistTacticDto(heistTactic.Tactic.Name, heistTactic.Tactic.Level, heistTactic.Tactic.MembersRequired);
+    }
 }

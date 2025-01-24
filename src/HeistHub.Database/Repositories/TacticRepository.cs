@@ -50,4 +50,12 @@ public class TacticRepository(ApplicationDbContext applicationDbContext) : ITact
         applicationDbContext.HeistTactics.RemoveRange(heistTactics);
         await applicationDbContext.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<HeistTactic>> GetHeistTacticsAsync(Guid heistId)
+    {
+        return await applicationDbContext.HeistTactics
+            .Include(x => x.Tactic)
+            .Where(x => x.HeistId == heistId)
+            .ToListAsync();
+    }
 }

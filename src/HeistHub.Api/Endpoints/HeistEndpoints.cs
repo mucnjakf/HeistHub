@@ -14,6 +14,7 @@ public static class HeistEndpoints
         RouteGroupBuilder group = app.MapGroup("api/heists");
 
         group.MapGet("{heistId:guid}", GetHeistAsync);
+        group.MapGet("{heistId:guid}/tactics", GetHeistTacticsAsync);
         group.MapPost(string.Empty, CreateHeistAsync);
         group.MapPatch("{heistId:guid}/tactics", UpdateHeistTacticsAsync);
         group.MapPut("{heistId:guid}/start", StartHeistAsync);
@@ -24,6 +25,13 @@ public static class HeistEndpoints
         HeistDto heist = await sender.Send(new GetHeistQuery(heistId));
 
         return Results.Ok(heist);
+    }
+
+    private static async Task<IResult> GetHeistTacticsAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid heistId)
+    {
+        IEnumerable<HeistTacticDto> heistTactics = await sender.Send(new GetHeistTacticsQuery(heistId));
+
+        return Results.Ok(heistTactics);
     }
 
     private static async Task<IResult> CreateHeistAsync(HttpContext httpContext, ISender sender, [FromBody] CreateHeistCommand command)
