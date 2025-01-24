@@ -11,6 +11,8 @@ public interface IHeistRepository
 
     Task<bool> ExistsAsync(string name);
 
+    Task<bool> ExistsAsync(Guid heistId);
+
     Task<bool> DidHeistStartAsync(Guid heistId);
 
     Task UpdateStatusAsync(Heist heist, HeistStatus status);

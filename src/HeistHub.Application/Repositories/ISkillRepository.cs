@@ -1,4 +1,5 @@
 ﻿using HeistHub.Application.Dtos;
+using HeistHub.Core.Entities;
 
 namespace HeistHub.Application.Repositories;
 
@@ -15,6 +16,8 @@ public interface ISkillRepository
     Task<Guid> GetIdByNameAsync(string skillName);
 
     Task UpdateMemberMainSkillAsync(Guid memberId, Guid mainSkillId);
-    
+
     Task DeleteMemberSkillAsync(Guid memberId, string skillName);
+
+    Task<IEnumerable<MemberSkill>> GetMemberSkillsAsync(Guid memberId);
 }

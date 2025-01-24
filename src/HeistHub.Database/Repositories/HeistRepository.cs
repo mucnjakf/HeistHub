@@ -11,7 +11,13 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
 {
     public async Task<Heist> GetAsync(Guid heistId)
     {
-        Heist? heist = await applicationDbContext.Heists.FirstOrDefaultAsync(x => x.Id == heistId);
+        Heist? heist = await applicationDbContext.Heists
+            .Include(x => x.HeistTactics)!
+            .ThenInclude(x => x.Tactic)
+            .Include(x => x.Members)!
+            .ThenInclude(x => x.MemberSkills)!
+            .ThenInclude(x => x.Skill)
+            .FirstOrDefaultAsync(x => x.Id == heistId);
 
         if (heist is null)
         {
@@ -32,6 +38,11 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
     public async Task<bool> ExistsAsync(string name)
     {
         return await applicationDbContext.Heists.AnyAsync(x => x.Name == name);
+    }
+
+    public async Task<bool> ExistsAsync(Guid heistId)
+    {
+        return await applicationDbContext.Heists.AnyAsync(x => x.Id == heistId);
     }
 
     public async Task<bool> DidHeistStartAsync(Guid heistId)
