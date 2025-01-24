@@ -15,8 +15,6 @@ Heist Management Web Application - 2025.
 - .NET 9 - ASP.NET Core Web API
 - MediatR
 - Entity Framework Core
-- xUnit
-- NSubstitute
 - PostgreSQL
 
 #
