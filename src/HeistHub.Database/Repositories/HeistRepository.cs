@@ -37,6 +37,11 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
         return await applicationDbContext.Heists.AnyAsync(x => x.Name == name);
     }
 
+    public async Task<bool> ExistsAsync(Guid heistId)
+    {
+        return await applicationDbContext.Heists.AnyAsync(x => x.Id == heistId);
+    }
+
     public async Task<bool> DidHeistStartAsync(Guid heistId)
     {
         Heist? heist = await applicationDbContext.Heists.FirstOrDefaultAsync(x => x.Id == heistId);
