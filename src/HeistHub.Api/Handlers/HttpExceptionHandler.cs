@@ -35,6 +35,7 @@ public sealed class HttpExceptionHandler(ILogger<HttpExceptionHandler> logger) :
 
         HeistStartedException hse => new ErrorResponseDto(HttpStatusCode.MethodNotAllowed, hse.Message),
         HeistNotReadyException hnre => new ErrorResponseDto(HttpStatusCode.MethodNotAllowed, hnre.Message),
+        HeistStatusException hse => new ErrorResponseDto(HttpStatusCode.MethodNotAllowed, hse.Message),
 
         _ => new ErrorResponseDto(HttpStatusCode.InternalServerError, "Unhandled exception occured.")
     };

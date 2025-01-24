@@ -16,6 +16,7 @@ public static class HeistEndpoints
 
         group.MapGet("{heistId:guid}", GetHeistAsync);
         group.MapGet("{heistId:guid}/tactics", GetHeistTacticsAsync);
+        group.MapGet("{heistId:guid}/members", GetHeistMembersAsync);
         group.MapGet("{heistId:guid}/status", GetHeistStatusAsync);
         group.MapPost(string.Empty, CreateHeistAsync);
         group.MapPatch("{heistId:guid}/tactics", UpdateHeistTacticsAsync);
@@ -34,6 +35,13 @@ public static class HeistEndpoints
         IEnumerable<HeistTacticDto> heistTactics = await sender.Send(new GetHeistTacticsQuery(heistId));
 
         return Results.Ok(heistTactics);
+    }
+
+    private static async Task<IResult> GetHeistMembersAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid heistId)
+    {
+        IEnumerable<HeistMemberDto> heistMembers = await sender.Send(new GetHeistMembersQuery(heistId));
+
+        return Results.Ok(heistMembers);
     }
 
     private static async Task<IResult> GetHeistStatusAsync(HttpContext httpContext, ISender sender, [FromRoute] Guid heistId)

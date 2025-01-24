@@ -15,4 +15,11 @@ public static class MemberMapper
             member.MemberSkills?.First(x => x.IsMain).Skill.Name ?? string.Empty,
             member.Status);
     }
+
+    public static HeistMemberDto ToHeistMemberDto(this Member member)
+    {
+        return new HeistMemberDto(
+            member.Name,
+            member.MemberSkills?.Select(x => x.Skill.ToMemberSkillDto()) ?? []);
+    }
 }

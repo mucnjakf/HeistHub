@@ -14,6 +14,9 @@ public class HeistRepository(ApplicationDbContext applicationDbContext) : IHeist
         Heist? heist = await applicationDbContext.Heists
             .Include(x => x.HeistTactics)!
             .ThenInclude(x => x.Tactic)
+            .Include(x => x.Members)!
+            .ThenInclude(x => x.MemberSkills)!
+            .ThenInclude(x => x.Skill)
             .FirstOrDefaultAsync(x => x.Id == heistId);
 
         if (heist is null)
