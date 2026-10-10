@@ -5,7 +5,7 @@
 Heist Management Web Application - 2025.
 
 <p align="justify">
-  HeistHub is a specialized application built to simplify heist planning and management. It offers an intuitive platform to recruit skilled crew members, assign roles, and execute heists. With feat[...]
+  HeistHub is a specialized application built to simplify heist planning and management. It offers an intuitive platform to recruit skilled crew members, assign roles, and execute heists. With features to improve skills and analyze outcomes, HeistHub is a great tool for mastering every aspect of a successful operation.
 </p>
 
 #
